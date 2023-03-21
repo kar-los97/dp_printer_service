@@ -1,10 +1,8 @@
-package cz.enigoo.printer_service.controller;
+package cz.upce.printer_service.controller;
 
-import cz.enigoo.printer_service.dto.PrinterDto;
-import cz.enigoo.printer_service.dto.PrinterSettingsDto;
-import cz.enigoo.printer_service.error.NoPrinterException;
-import cz.enigoo.printer_service.error.SettingsException;
-import cz.enigoo.printer_service.service.EnigooPrinterSettingsService;
+import cz.upce.printer_service.dto.PrinterDto;
+import cz.upce.printer_service.error.SettingsException;
+import cz.upce.printer_service.service.PrinterSettingsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,16 +13,16 @@ import java.util.Set;
 @RequestMapping("/api/v1/settings")
 public class PrinterSettingsController {
 
-    private final EnigooPrinterSettingsService enigooPrinterSettingsService;
+    private final PrinterSettingsService printerSettingsService;
 
-    public PrinterSettingsController(EnigooPrinterSettingsService enigooPrinterSettingsService) {
-        this.enigooPrinterSettingsService = enigooPrinterSettingsService;
+    public PrinterSettingsController(PrinterSettingsService printerSettingsService) {
+        this.printerSettingsService = printerSettingsService;
     }
 
     @GetMapping
     public ResponseEntity<?> getPrinterSettings(){
         try{
-            return new ResponseEntity<>(enigooPrinterSettingsService.getPrinterSettings(), HttpStatus.OK);
+            return new ResponseEntity<>(printerSettingsService.getPrinterSettings(), HttpStatus.OK);
         }catch (Exception ex){
             if(ex instanceof SettingsException){
                 return new ResponseEntity<>("SOME_ERROR_AT_CONFIG_FILE",HttpStatus.BAD_REQUEST);
@@ -36,13 +34,13 @@ public class PrinterSettingsController {
 
     @GetMapping("/printer")
     public ResponseEntity<?> getAllPrinters(){
-        return new ResponseEntity<>(enigooPrinterSettingsService.getAllPrinters(),HttpStatus.OK);
+        return new ResponseEntity<>(printerSettingsService.getAllPrinters(),HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<?> changeSettings(@RequestBody Set<PrinterDto> dto){
         try{
-            return new ResponseEntity<>(enigooPrinterSettingsService.changeSettings(dto),HttpStatus.OK);
+            return new ResponseEntity<>(printerSettingsService.changeSettings(dto),HttpStatus.OK);
         }catch (Exception ex){
             if(ex instanceof SettingsException){
                 return new ResponseEntity<>(ex.getMessage(),HttpStatus.BAD_REQUEST);
@@ -55,7 +53,7 @@ public class PrinterSettingsController {
     @DeleteMapping
     public ResponseEntity<?> deleteSettings(){
         try{
-            return new ResponseEntity<>(enigooPrinterSettingsService.deleteSettings(),HttpStatus.OK);
+            return new ResponseEntity<>(printerSettingsService.deleteSettings(),HttpStatus.OK);
 
         }catch (Exception ex){
             if(ex instanceof SettingsException){

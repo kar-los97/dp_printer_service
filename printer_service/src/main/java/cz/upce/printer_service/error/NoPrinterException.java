@@ -1,4 +1,4 @@
-package cz.enigoo.printer_service.error;
+package cz.upce.printer_service.error;
 
 /**
  * Exception when no printer found

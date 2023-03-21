@@ -1,4 +1,4 @@
-package cz.enigoo.printer_service.utils;
+package cz.upce.printer_service.utils;
 
 public enum MessageType {
 

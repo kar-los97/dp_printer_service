@@ -1,4 +1,4 @@
-package cz.enigoo.printer_service.dto;
+package cz.upce.printer_service.dto;
 
 import java.util.List;
 

@@ -8,7 +8,7 @@
         <version>2.7.5</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>cz.enigoo</groupId>
+    <groupId>cz.upce</groupId>
     <artifactId>printer_service</artifactId>
     <version>0.0.1</version>
     <name>printer_service</name>
@@ -16,6 +16,13 @@
     <properties>
         <java.version>17</java.version>
     </properties>
+    <repositories>
+        <repository>
+            <id>com.e-iceblue</id>
+            <name>e-iceblue</name>
+            <url>https://repo.e-iceblue.com/nexus/content/groups/public/</url>
+        </repository>
+    </repositories>
 
     <dependencies>
         <dependency>
@@ -45,6 +52,11 @@
             <artifactId>WMI4Java</artifactId>
             <version>1.4.2</version>
         </dependency>
+        <dependency>
+            <groupId>e-iceblue</groupId>
+            <artifactId>spire.doc.free</artifactId>
+            <version>5.2.0</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -56,7 +68,7 @@
                     <execution>
                         <phase>package</phase>
                         <configuration>
-                            <mainClass>cz.enigoo.printer_service.PrinterServiceApplication</mainClass>
+                            <mainClass>cz.upce.printer_service.PrinterServiceApplication</mainClass>
                         </configuration>
                     </execution>
                 </executions>
@@ -75,10 +87,10 @@
                         <configuration>
                             <headerType>console</headerType>
                             <jar>target/${project.name}-${project.version}.jar</jar>
-                            <outfile>target/enigoo_${project.name}-${project.version}.exe</outfile>
+                            <outfile>target/${project.name}-${project.version}.exe</outfile>
                             <downloadUrl>https://java.com/download</downloadUrl>
                             <classPath>
-                                <mainClass>cz.enigoo.printer_service.Main</mainClass>
+                                <mainClass>cz.upce.printer_service.Main</mainClass>
                                 <preCp>anything</preCp>
                             </classPath>
                             <icon>logo-E.ico</icon>
@@ -90,12 +102,12 @@
                                 <fileVersion>${project.version}.0</fileVersion>
                                 <txtFileVersion>${project.version}.0</txtFileVersion>
                                 <fileDescription>${project.name}</fileDescription>
-                                <copyright>2022 enigoo.cz</copyright>
+                                <copyright>2023 Karel Andres</copyright>
                                 <productVersion>${project.version}.0</productVersion>
                                 <txtProductVersion>${project.version}.0</txtProductVersion>
                                 <productName>${project.name}</productName>
-                                <internalName>enigoo_printer_service</internalName>
-                                <originalFilename>enigoo_${project.name}-${project.version}.exe</originalFilename>
+                                <internalName>printer_service</internalName>
+                                <originalFilename>${project.name}-${project.version}.exe</originalFilename>
                             </versionInfo>
                         </configuration>
                     </execution>
@@ -119,7 +131,7 @@
                                 <resource>
                                     <directory>target</directory>
                                     <includes>
-                                        <include>enigoo_${project.name}-${project.version}.exe</include>
+                                        <include>${project.name}-${project.version}.exe</include>
                                     </includes>
                                 </resource>
                             </resources>

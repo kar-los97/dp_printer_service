@@ -1,6 +1,4 @@
-package cz.enigoo.printer_service.enums;
-
-import java.util.Locale;
+package cz.upce.printer_service.enums;
 
 public enum PrinterType {
     THERMO("thermo"),OTHER("other"),UNKNOWN("unknown");

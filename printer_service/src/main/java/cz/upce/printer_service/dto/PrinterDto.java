@@ -1,6 +1,4 @@
-package cz.enigoo.printer_service.dto;
-
-import cz.enigoo.printer_service.enums.PrinterType;
+package cz.upce.printer_service.dto;
 
 public class PrinterDto {
 

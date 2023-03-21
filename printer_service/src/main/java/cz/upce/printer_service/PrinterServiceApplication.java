@@ -1,4 +1,4 @@
-package cz.enigoo.printer_service;
+package cz.upce.printer_service;
 
 
 import org.springframework.boot.SpringApplication;

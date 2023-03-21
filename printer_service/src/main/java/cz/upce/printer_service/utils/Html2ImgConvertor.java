@@ -1,9 +1,12 @@
-package cz.enigoo.printer_service.utils;
+package cz.upce.printer_service.utils;
 
-import java.io.BufferedWriter;
-import java.io.FileInputStream;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.awt.image.BufferedImage;
+import java.io.*;
+
+import com.spire.doc.*;
+import com.spire.doc.documents.*;
+
+import javax.imageio.ImageIO;
 
 /**
  * Util to convert html from string to image in PNG
@@ -42,25 +45,17 @@ public class Html2ImgConvertor {
      */
     public FileInputStream convert(String html,Long height,Long width){
         saveHtmlToFile(html);
-        ProcessBuilder processBuilder = new ProcessBuilder();
-        processBuilder.command("cmd.exe");
-        processBuilder.command("./wkhtmltopdf/bin/wkhtmltoimage.exe","--width",String.valueOf(width),"--zoom","2","--images","--quality","100", HTML_PATH ,IMG_PATH);
-
-        try{
-            Process process = processBuilder.start();
-            int exitVal = process.waitFor();
-            if(exitVal==0){
-                return new FileInputStream(IMG_PATH);
-            }else{
-                return null;
-            }
-        }catch (IOException e){
-            System.out.println(e);
+        Document document = new Document();
+        document.setJPEGQuality(100);
+        document.loadFromFile(HTML_PATH,FileFormat.Html,XHTMLValidationType.None);
+        BufferedImage image = document.saveToImages(0,ImageType.Bitmap);
+        File file = new File(IMG_PATH);
+        try {
+            ImageIO.write(image,"PNG",file);
+            return new FileInputStream(IMG_PATH);
+        } catch (IOException e) {
             return null;
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
         }
-
     }
 
     /**

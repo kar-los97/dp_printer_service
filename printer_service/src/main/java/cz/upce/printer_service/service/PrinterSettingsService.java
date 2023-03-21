@@ -1,11 +1,11 @@
-package cz.enigoo.printer_service.service;
+package cz.upce.printer_service.service;
 
-import cz.enigoo.printer_service.dto.PrinterDto;
-import cz.enigoo.printer_service.entity.Printer;
-import cz.enigoo.printer_service.enums.PrinterType;
-import cz.enigoo.printer_service.error.SettingsException;
-import cz.enigoo.printer_service.utils.MessageType;
-import cz.enigoo.printer_service.utils.PrinterLogger;
+import cz.upce.printer_service.dto.PrinterDto;
+import cz.upce.printer_service.entity.Printer;
+import cz.upce.printer_service.enums.PrinterType;
+import cz.upce.printer_service.error.SettingsException;
+import cz.upce.printer_service.utils.MessageType;
+import cz.upce.printer_service.utils.PrinterLogger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -20,12 +20,11 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @Service
-public class EnigooPrinterSettingsService {
+public class PrinterSettingsService {
 
     public List<Printer> getPrinterSettings() throws SettingsException {
         List<Printer> printersSet = new ArrayList<>();

@@ -1,13 +1,13 @@
-package cz.enigoo.printer_service.service;
+package cz.upce.printer_service.service;
 
-import cz.enigoo.printer_service.dto.PrintDto;
-import cz.enigoo.printer_service.entity.Printer;
-import cz.enigoo.printer_service.enums.PrinterType;
-import cz.enigoo.printer_service.error.NoPrinterException;
-import cz.enigoo.printer_service.error.PrintFailedException;
-import cz.enigoo.printer_service.utils.Html2ImgConvertor;
-import cz.enigoo.printer_service.utils.MessageType;
-import cz.enigoo.printer_service.utils.PrinterLogger;
+import cz.upce.printer_service.dto.PrintDto;
+import cz.upce.printer_service.entity.Printer;
+import cz.upce.printer_service.enums.PrinterType;
+import cz.upce.printer_service.error.NoPrinterException;
+import cz.upce.printer_service.error.PrintFailedException;
+import cz.upce.printer_service.utils.Html2ImgConvertor;
+import cz.upce.printer_service.utils.MessageType;
+import cz.upce.printer_service.utils.PrinterLogger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -30,7 +30,7 @@ import java.util.List;
  * Service to do operations with printers, communicate with
  */
 @Service
-public class EnigooPrintService {
+public class PrintService {
 
     /**
      * Types of printers
@@ -45,7 +45,7 @@ public class EnigooPrintService {
     /**
      * Founded printService
      */
-    private PrintService service;
+    private javax.print.PrintService service;
 
     /**
      *
@@ -55,6 +55,7 @@ public class EnigooPrintService {
      * @throws PrintFailedException if printer shut down or printing failed
      */
     public boolean print(PrintDto printDto) throws NoPrinterException, PrintFailedException {
+
         //Get printer and them printservice
         printer = getPrinter(PrinterType.getTypeFromString(printDto.getType()));
         service = getPrintService(printer);
@@ -179,20 +180,20 @@ public class EnigooPrintService {
      * @throws NoPrinterException printer doesn't exist in this computer
      * @throws PrintFailedException printer is shut down
      */
-    private PrintService getPrintService(Printer printer) throws NoPrinterException, PrintFailedException {
-        if (isPrinterReady(printer)) {
-            PrintService[] services = PrintServiceLookup.lookupPrintServices(DocFlavor.INPUT_STREAM.AUTOSENSE, null);
-            for (PrintService item : services) {
+    private javax.print.PrintService getPrintService(Printer printer) throws NoPrinterException, PrintFailedException {
+        //if (isPrinterReady(printer)) {
+            javax.print.PrintService[] services = PrintServiceLookup.lookupPrintServices(DocFlavor.INPUT_STREAM.AUTOSENSE, null);
+            for (javax.print.PrintService item : services) {
                 if (item.getName().equals(printer.getName())) {
                     return item;
                 }
             }
             PrinterLogger.getInstance().log("PRINTER_DOESNT_EXIST",MessageType.ERROR);
             throw new NoPrinterException("PRINTER_DOESNT_EXIST");
-        } else {
-            PrinterLogger.getInstance().log("PRINTER_SHUT_DOWN",MessageType.WARN);
-            throw new PrintFailedException("PRINTER_SHUT_DOWN");
-        }
+        //} else {
+          //  PrinterLogger.getInstance().log("PRINTER_SHUT_DOWN",MessageType.WARN);
+            //throw new PrintFailedException("PRINTER_SHUT_DOWN");
+        //}
 
     }
 

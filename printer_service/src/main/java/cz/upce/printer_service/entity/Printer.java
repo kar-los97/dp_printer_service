@@ -1,6 +1,6 @@
-package cz.enigoo.printer_service.entity;
+package cz.upce.printer_service.entity;
 
-import cz.enigoo.printer_service.enums.PrinterType;
+import cz.upce.printer_service.enums.PrinterType;
 
 /**
  * Helpful class to store data about printer at config.json file

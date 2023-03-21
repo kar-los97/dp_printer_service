@@ -1,6 +1,4 @@
-package cz.enigoo.printer_service.dto;
-
-import cz.enigoo.printer_service.entity.Printer;
+package cz.upce.printer_service.dto;
 
 import java.util.Set;
 
