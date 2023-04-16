@@ -1,0 +1,16 @@
+{
+  "printers": [
+    {
+      "name": "Honeywell PC42t (203 dpi) - DP",
+      "width": 60,
+      "type": "THERMO",
+      "height": 101
+    },
+    {
+      "name": "HP Smart Printing",
+      "width": 60,
+      "type": "OTHER",
+      "height": 101
+    }
+  ]
+}

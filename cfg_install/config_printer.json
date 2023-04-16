@@ -1,0 +1,16 @@
+{
+  "printers": [
+    {
+      "name": null,
+      "width": 60,
+      "type": "THERMO",
+      "height": 101
+    },
+    {
+      "name": null,
+      "width": 210,
+      "type": "OTHER",
+      "height": 297
+    }
+  ]
+}

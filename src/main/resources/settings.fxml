@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<?import javafx.scene.web.WebView?>
+<BorderPane maxHeight="450.0" maxWidth="600.0" minHeight="450.0" minWidth="600.0" prefHeight="450.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cz.upce.gui.SettingsController">
+    <top>
+        <MenuBar BorderPane.alignment="CENTER">
+            <Menu mnemonicParsing="false" text="Soubor">
+                <MenuItem fx:id="menuSave" mnemonicParsing="false" onAction="#menuSaveOnAction" text="Uložit" />
+                <MenuItem fx:id="menuClose" mnemonicParsing="false" onAction="#menuCloseOnAction" text="Zavřít" />
+                <MenuItem fx:id="menuExit" mnemonicParsing="false" onAction="#menuExitOnAction" text="Ukončit" />
+            </Menu>
+            <Menu mnemonicParsing="false" text="Upravit">
+                <MenuItem fx:id="menuDel" mnemonicParsing="false" onAction="#menuDelSettingsOnAction" text="Odstranit všechna nastavení" />
+            </Menu>
+            <Menu mnemonicParsing="false" text="Nápověda">
+                <MenuItem fx:id="menuAbout" mnemonicParsing="false" onAction="#menuAboutOnAction" text="O aplikaci" />
+            </Menu>
+        </MenuBar>
+    </top>
+    <center>
+        <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+            <tabs>
+                <Tab text="Tiskárny">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="341.0" prefWidth="600.0">
+                            <children>
+                                <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                    <center>
+                                        <GridPane BorderPane.alignment="CENTER">
+                                            <columnConstraints>
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                            </columnConstraints>
+                                            <rowConstraints>
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                            </rowConstraints>
+                                            <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" style="-fx-border-width: 1; -fx-border-color: black;">
+                                                <Label contentDisplay="CENTER" prefHeight="27.0" prefWidth="600.0" text="Tisk vstupenek (termo tiskárna):">
+                                                    <font>
+                                                        <Font size="18.0" />
+                                                    </font>
+                                                    <VBox.margin>
+                                                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                    </VBox.margin>
+                                                </Label>
+                                                <GridPane>
+                                                    <columnConstraints>
+                                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                    </columnConstraints>
+                                                    <rowConstraints>
+                                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                    </rowConstraints>
+                                                    <Label text="Název tiskárny: *">
+                                                        <font>
+                                                            <Font size="13.0" />
+                                                        </font>
+                                                    </Label>
+                                                    <Label text="Šířka papíru: * [mm]" GridPane.rowIndex="1">
+                                                        <font>
+                                                            <Font size="13.0" />
+                                                        </font>
+                                                    </Label>
+                                                    <Label text="Výška papíru: * [mm]" GridPane.rowIndex="2">
+                                                        <font>
+                                                            <Font size="13.0" />
+                                                        </font>
+                                                    </Label>
+                                                    <ComboBox fx:id="cbThermoPrinterName" prefHeight="25.0" prefWidth="288.0" GridPane.columnIndex="1" />
+                                                    <TextField fx:id="tfThermoPrinterWidth" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                                    <TextField fx:id="tfThermoPrinterHeight" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                                    <VBox.margin>
+                                                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                    </VBox.margin>
+                                                </GridPane>
+                                                <Button maxHeight="30.0" maxWidth="150.0" minHeight="30.0" minWidth="150.0" mnemonicParsing="false" onAction="#btnTestThermoPrintOnAction" prefHeight="30.0" prefWidth="150.0" text="ZKUŠEBNÍ TISK">
+                                                    <VBox.margin>
+                                                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                    </VBox.margin>
+                                                </Button>
+                                            </VBox>
+                                            <VBox alignment="TOP_CENTER" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1">
+                                                <Label contentDisplay="CENTER" prefHeight="27.0" prefWidth="590.0" text="Běžný tisk (běžná tiskárna):" textAlignment="CENTER">
+                                                    <font>
+                                                        <Font name="System Italic" size="18.0" />
+                                                    </font>
+                                                    <VBox.margin>
+                                                        <Insets bottom="5.0" left="5.0" right="5.0" top="10.0" />
+                                                    </VBox.margin>
+                                                </Label>
+                                                <GridPane>
+                                                    <columnConstraints>
+                                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                    </columnConstraints>
+                                                    <rowConstraints>
+                                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                    </rowConstraints>
+                                                    <children>
+                                                        <Label text="Název tiskárny: *">
+                                                            <font>
+                                                                <Font size="13.0" />
+                                                            </font>
+                                                        </Label>
+                                                        <Label text="Šířka papíru: * [mm]" GridPane.rowIndex="1">
+                                                            <font>
+                                                                <Font size="13.0" />
+                                                            </font>
+                                                        </Label>
+                                                        <Label text="Výška papíru: * [mm]" GridPane.rowIndex="2">
+                                                            <font>
+                                                                <Font size="13.0" />
+                                                            </font>
+                                                        </Label>
+                                                        <ComboBox fx:id="cbOtherPrinterName" prefHeight="25.0" prefWidth="289.0" GridPane.columnIndex="1" />
+                                                        <TextField fx:id="tfOtherPrinterWidth" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                                        <TextField fx:id="tfOtherPrinterHeight" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                                    </children>
+                                                    <VBox.margin>
+                                                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                    </VBox.margin>
+                                                </GridPane>
+                                                <Button maxHeight="30.0" maxWidth="150.0" minHeight="30.0" minWidth="150.0" mnemonicParsing="false" onAction="#btnTestOtherPrintOnAction" prefHeight="30.0" prefWidth="150.0" text="ZKUŠEBNÍ TISK" />
+                                            </VBox>
+                                            <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                            </padding>
+                                        </GridPane>
+                                    </center>
+                                    <bottom>
+                                        <HBox alignment="CENTER_RIGHT" prefHeight="59.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+                                            <Button fx:id="btnSave" maxHeight="40.0" maxWidth="80.0" minHeight="40.0" minWidth="80.0" mnemonicParsing="false" onAction="#btnSavePrinterOnAction" prefHeight="40.0" prefWidth="80.0" text="ULOŽIT">
+                                                <font>
+                                                    <Font name="System Bold" size="14.0" />
+                                                </font>
+                                                <HBox.margin>
+                                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                </HBox.margin>
+                                            </Button>
+                                            <Button fx:id="btnClose" maxHeight="40.0" maxWidth="80.0" minHeight="40.0" minWidth="80.0" mnemonicParsing="false" onAction="#btnCloseOnAction" prefHeight="40.0" prefWidth="80.0" text="ZAVŘÍT">
+                                                <HBox.margin>
+                                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                </HBox.margin>
+                                                <padding>
+                                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                </padding>
+                                                <font>
+                                                    <Font size="14.0" />
+                                                </font>
+                                            </Button>
+                                        </HBox>
+                                    </bottom>
+                                </BorderPane>
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+                <Tab text="Platební terminál">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <children>
+                                <BorderPane layoutX="77.0" layoutY="98.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                    <center>
+                                        <GridPane BorderPane.alignment="CENTER">
+                                            <columnConstraints>
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                            </columnConstraints>
+                                            <rowConstraints>
+                                                <RowConstraints maxHeight="241.0" minHeight="10.0" prefHeight="241.0" vgrow="SOMETIMES" />
+                                                <RowConstraints maxHeight="163.0" minHeight="10.0" prefHeight="85.0" vgrow="SOMETIMES" />
+                                            </rowConstraints>
+                                            <children>
+                                                <VBox alignment="TOP_CENTER" prefHeight="244.0" prefWidth="590.0">
+                                                    <children>
+                                                        <Label prefHeight="27.0" prefWidth="585.0" text="Nastavení platebního terminálu:">
+                                                            <font>
+                                                                <Font name="System Italic" size="18.0" />
+                                                            </font>
+                                                            <VBox.margin>
+                                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                            </VBox.margin>
+                                                        </Label>
+                                                        <GridPane>
+                                                            <columnConstraints>
+                                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                            </columnConstraints>
+                                                            <rowConstraints>
+                                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                            </rowConstraints>
+                                                            <children>
+                                                                <Label text="Typ: *" />
+                                                                <Label text="IP adresa: *" GridPane.rowIndex="1" />
+                                                                <Label text="Port: *" GridPane.rowIndex="2" />
+                                                                <Label text="ID: *" GridPane.rowIndex="3" />
+                                                                <ComboBox fx:id="cbTerminalType" prefHeight="25.0" prefWidth="294.0" GridPane.columnIndex="1" />
+                                                                <TextField fx:id="tfTerminalIp" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                                                <TextField fx:id="tfTerminalPort" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                                                <TextField fx:id="tfTerminalId" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                                                <Label text="IP adresa počítače:" GridPane.rowIndex="4" />
+                                                                <TextField fx:id="tfPcIp" disable="true" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                                                <Label text="MAC adresa počítače:" GridPane.rowIndex="5" />
+                                                                <TextField fx:id="tfPcMac" disable="true" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                                            </children>
+                                                            <VBox.margin>
+                                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                            </VBox.margin>
+                                                        </GridPane>
+                                                        <Button maxHeight="30.0" maxWidth="150.0" minHeight="30.0" minWidth="150.0" mnemonicParsing="false" onAction="#btnTerminalTestOnAction" prefHeight="30.0" prefWidth="150.0" text="OTESTOVAT SPOJENÍ" />
+                                                    </children>
+                                                </VBox>
+                                            </children>
+                                            <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                            </padding>
+                                        </GridPane>
+                                    </center>
+                                    <bottom>
+                                        <HBox alignment="TOP_RIGHT" prefHeight="59.0" prefWidth="600.0" BorderPane.alignment="TOP_RIGHT">
+                                            <children>
+                                                <Button maxHeight="40.0" maxWidth="80.0" minHeight="40.0" minWidth="80.0" mnemonicParsing="false" onAction="#btnTerminalSaveOnAction" prefHeight="40.0" prefWidth="80.0" text="ULOŽIT">
+                                                    <HBox.margin>
+                                                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                    </HBox.margin>
+                                                    <font>
+                                                        <Font name="System Bold" size="14.0" />
+                                                    </font>
+                                                </Button>
+                                                <Button maxHeight="40.0" maxWidth="80.0" minHeight="40.0" minWidth="80.0" mnemonicParsing="false" onAction="#btnCloseOnAction" prefHeight="40.0" prefWidth="80.0" text="ZAVŘÍT">
+                                                    <HBox.margin>
+                                                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                    </HBox.margin>
+                                                    <font>
+                                                        <Font size="14.0" />
+                                                    </font>
+                                                </Button>
+                                            </children></HBox>
+                                    </bottom>
+                                </BorderPane>
+                            </children></AnchorPane>
+                    </content>
+                </Tab>
+            </tabs>
+        </TabPane>
+    </center>
+</BorderPane>
