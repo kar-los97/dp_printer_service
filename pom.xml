@@ -190,7 +190,7 @@
             <!-- Optional, leave out if you do not need MathML support. -->
             <!-- Introduced in RC-13. -->
             <groupId>com.openhtmltopdf</groupId>
-            <artifactId><openhtmltopdf-objects></openhtmltopdf-objects></artifactId>
+            <artifactId>openhtmltopdf-objects</artifactId>
             <version>1.0.10</version>
         </dependency>
     </dependencies>
@@ -205,29 +205,6 @@
                         <phase>package</phase>
                         <configuration>
                             <mainClass>cz.upce.PrinterServiceApplication</mainClass>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>copy-chromedriver</id>
-                        <phase>initialize</phase>
-                        <goals>
-                            <goal>copy</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>io.github.bonigarcia</groupId>
-                                    <artifactId>webdrivermanager</artifactId>
-                                    <version>5.0.3</version>
-                                </artifactItem>
-                            </artifactItems>
                         </configuration>
                     </execution>
                 </executions>
@@ -252,7 +229,7 @@
                                 <mainClass>cz.upce.Main</mainClass>
                                 <preCp>anything</preCp>
                             </classPath>
-                            <icon>logo-E.ico</icon>
+                            <icon>cashier.ico</icon>
                             <jre>
                                 <minVersion>1.8.0</minVersion>
                                 <jdkPreference>preferJre</jdkPreference>
@@ -335,23 +312,6 @@
                                 </resource>
                             </resources>
                         </configuration>
-
-                    </execution>
-                    <execution>
-                        <id>copy-resource-four</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>../build/wkhtmltopdf</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>${project.basedir}/wkhtmltopdf</directory>
-                                </resource>
-                            </resources>
-                        </configuration>
-
                     </execution>
                 </executions>
             </plugin>
