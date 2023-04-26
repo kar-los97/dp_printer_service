@@ -10,20 +10,14 @@ import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.concurrent.Worker;
-import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
-import javafx.scene.image.WritableImage;
-import javafx.scene.web.WebView;
 import org.apache.commons.validator.routines.InetAddressValidator;
 
-import javax.imageio.ImageIO;
-import java.io.File;
 import java.io.IOException;
 import java.net.Inet4Address;
 import java.net.InetAddress;
@@ -55,8 +49,6 @@ public class SettingsController {
     public TextField tfOtherPrinterHeight;
 
     //Fields for terminal
-    @FXML
-    public ComboBox<String> cbTerminalType;
     @FXML
     public TextField tfTerminalIp;
     @FXML
@@ -154,11 +146,11 @@ public class SettingsController {
     public void menuAboutOnAction(ActionEvent actionEvent) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("O aplikaci");
-        alert.setHeaderText("Aplikace ENIGOO Cashier service");
+        alert.setHeaderText("Aplikace Cashier service");
         alert.setContentText("Tato aplikace slouží pro komunikaci mezi pokladní webovou aplikací a platebním terminálem nebo tiskárnami." +
                 "Pokud je tato aplikace spuštěna je umožněno z pokladní aplikace přímo odesílat vstupenky/faktury do tiskárny" +
                 " a je umožněno odesílat přímo platby/vratky do platebního terminálu.\n\n" +
-                "©"+Year.now().getValue() + " ENIGOO s. r. o. ");
+                "©"+Year.now().getValue() + " Bc. Karel Andres ");
 
         alert.showAndWait();
 
@@ -375,7 +367,6 @@ public class SettingsController {
                 cbThermoPrinterName.getSelectionModel().select(null);
                 cbOtherPrinterName.getSelectionModel().select(null);
 
-                cbTerminalType.getSelectionModel().select(null);
                 tfTerminalIp.setText("");
                 tfTerminalId.setText("");
                 tfTerminalPort.setText("");
@@ -457,9 +448,6 @@ public class SettingsController {
         tfTerminalPort.setText(String.valueOf(terminal.getPort()));
         tfTerminalId.setText(terminal.getId());
         tfTerminalIp.setText(terminal.getIp());
-        cbTerminalType.getSelectionModel().select(terminal.getType());
-        ObservableList<String> terminalTypes = FXCollections.observableArrayList("csob", "fiskal");
-        cbTerminalType.setItems(terminalTypes);
         try {
             Enumeration<NetworkInterface> ifaces = NetworkInterface.getNetworkInterfaces();
             while(ifaces.hasMoreElements()){
@@ -502,7 +490,7 @@ public class SettingsController {
     private void saveTerminal() {
         if (validateTerminal()) {
             Terminal terminal = new Terminal();
-            terminal.setType(cbTerminalType.getValue());
+            terminal.setType("default");
             terminal.setIp(tfTerminalIp.getText());
             terminal.setPort(Integer.parseInt(tfTerminalPort.getText()));
             terminal.setId(tfTerminalId.getText());
@@ -534,9 +522,6 @@ public class SettingsController {
      */
     private boolean validateTerminal() {
         StringBuilder sb = new StringBuilder();
-        if (cbTerminalType.getValue() == null) {
-            sb.append("Není vyplněn typ terminálu\n");
-        }
         if (tfTerminalIp.getText().equals("")) {
             sb.append("Není vyplněna IP adresa terminálu\n");
         } else {

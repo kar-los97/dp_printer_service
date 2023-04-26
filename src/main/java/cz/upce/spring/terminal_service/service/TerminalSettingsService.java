@@ -20,7 +20,7 @@ public class TerminalSettingsService {
     public TerminalDto getTerminalSettings() throws TerminalSettingsException {
         JSONParser jsonParser = new JSONParser();
         try {
-            JSONObject jsonObject = (JSONObject) jsonParser.parse(new FileReader("C:/ENIGOO_PROJECTS/cashier_service/enigoo_cashier_service/cfg/config_terminal.json"));
+            JSONObject jsonObject = (JSONObject) jsonParser.parse(new FileReader("cfg/config_terminal.json"));
             JSONObject terminalObject = (JSONObject) jsonObject.get("terminal");
             if (terminalObject != null || !terminalObject.containsKey("type") || !terminalObject.containsKey("ip") || !terminalObject.containsKey("port") || !terminalObject.containsKey("id")) {
                 TerminalDto dto = new TerminalDto();
@@ -50,7 +50,7 @@ public class TerminalSettingsService {
 
         jsonObject.put("terminal",terminalObject);
         try {
-            FileWriter file = new FileWriter("C:/ENIGOO_PROJECTS/cashier_service/enigoo_cashier_service/cfg/config_terminal.json");
+            FileWriter file = new FileWriter("cfg/config_terminal.json");
             file.write(jsonObject.toJSONString());
 
             file.flush();

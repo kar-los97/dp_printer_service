@@ -203,11 +203,9 @@
                                                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                                             </rowConstraints>
                                                             <children>
-                                                                <Label text="Typ: *" />
                                                                 <Label text="IP adresa: *" GridPane.rowIndex="1" />
                                                                 <Label text="Port: *" GridPane.rowIndex="2" />
                                                                 <Label text="ID: *" GridPane.rowIndex="3" />
-                                                                <ComboBox fx:id="cbTerminalType" prefHeight="25.0" prefWidth="294.0" GridPane.columnIndex="1" />
                                                                 <TextField fx:id="tfTerminalIp" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                                                 <TextField fx:id="tfTerminalPort" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                                                 <TextField fx:id="tfTerminalId" GridPane.columnIndex="1" GridPane.rowIndex="3" />

@@ -1,31 +1,30 @@
-package cz.upce.spring.terminal_service.csob;
+package cz.upce.spring.terminal_service.terminalutils;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-public class Message {
+public class TerminalResponse {
 
-    final String RESPONSE = "B2";
 
-    private byte[] bytes;
+    private final byte[] bytes;
     final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
 
-    private ArrayList<String> messages = new ArrayList<String>();
+    private final ArrayList<String> messages = new ArrayList<>();
 
-    public Message(byte[] message) {
+    public TerminalResponse(byte[] message) {
         this.bytes = message;
-        split();
+        createBlockOfMessages();
     }
 
-    public Response process() {
-        return new Response(this.messages);
+    public ConvertedResponse process() {
+        return new ConvertedResponse(this.messages);
     }
 
-    private void split() {
+    private void createBlockOfMessages() {
 
         char[] hexChars = new char[this.bytes.length * 2];
-        int count = 0;
-        boolean isHeader = false;
         int lastPosition = 0;
 
         for (int j = 0; j < bytes.length; j++) {
@@ -37,11 +36,12 @@ public class Message {
             test[0] = hexChars[j * 2];
             test[1] = hexChars[j * 2 + 1];
 
-            if (new String(test).equals("1C") || new String(test).equals("03") || new String(test).equals("1D")) {
+            String[] startOfBlock  = {"1C","03","1D"};
+
+            if(Arrays.asList(startOfBlock).contains(test)){
                 messages.add(createMessage(j - lastPosition, lastPosition));
                 lastPosition = j;
             }
-
         }
     }
 

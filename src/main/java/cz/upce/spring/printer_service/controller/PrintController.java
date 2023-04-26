@@ -76,27 +76,4 @@ public class PrintController {
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
-
-    /**
-     * Check every 30 seconds state of printers and send result to socket
-     */
-    //@Scheduled(cron = "*/30 * * * * *")
-    //@Scheduled(fixedDelay = 30000)
-    private void checkPrinters() {
-        /*Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("CHECK PRINTERS");
-        alert.showAndWait();*/
-        try {
-            Socket socket = Main.serverSocket.accept();
-            List<StatusDto> result = printService.checkPrinters();
-            DataOutputStream dout = new DataOutputStream(socket.getOutputStream());
-            StringBuilder sb = new StringBuilder();
-            for (StatusDto r : result) {
-                sb.append(r).append(";");
-            }
-            dout.writeUTF(sb.toString());
-        }catch (IOException ex){
-
-        }
-    }
 }

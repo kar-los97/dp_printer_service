@@ -1,6 +1,5 @@
 package cz.upce.gui;
 
-import cz.upce.spring.Main;
 import cz.upce.spring.PrinterServiceApplication;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -63,7 +62,7 @@ public class SettingsApplication extends Application {
      * When application was closed
      */
     @Override
-    public void stop() throws IOException {
+    public void stop() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Ukončit aplikaci");
         alert.setHeaderText("Opravdu chcete ukončit aplikaci?");
@@ -72,9 +71,6 @@ public class SettingsApplication extends Application {
         if (result.isPresent() && result.get().equals(ButtonType.OK)) {
             SettingsApplication.applicationContext.close();
             Platform.exit();
-            if (Main.serverSocket != null) {
-                Main.serverSocket.close();
-            }
 
         }
     }

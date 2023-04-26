@@ -58,7 +58,7 @@ public class Html2ImgConvertor {
         objectDrawerFactory.registerDrawer("custom/binary-tree", new SampleObjectDrawerBinaryTree());
         return objectDrawerFactory;
     }
-    public class SampleObjectDrawerBinaryTree implements FSObjectDrawer {
+    private static class SampleObjectDrawerBinaryTree implements FSObjectDrawer {
         int fanout;
         int angle;
 

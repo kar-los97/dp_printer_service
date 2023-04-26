@@ -3,7 +3,6 @@ package cz.upce.spring.terminal_service.controller;
 import cz.upce.spring.error.TerminalException;
 import cz.upce.spring.error.TerminalSettingsException;
 import cz.upce.spring.terminal_service.dto.PayDto;
-import cz.upce.spring.terminal_service.dto.RefundDto;
 import cz.upce.spring.terminal_service.dto.ResultDto;
 import cz.upce.spring.terminal_service.service.TerminalService;
 import org.springframework.http.ResponseEntity;
@@ -51,66 +50,6 @@ public class TerminalController {
         }
 
 
-    }
-
-    /**
-     * Api point to send refund to terminal
-     * @param refundDto refund data
-     * @return response
-     */
-    @PostMapping("/refund")
-    public ResponseEntity<?> refund(@RequestBody RefundDto refundDto) {
-        try{
-            ResultDto dto = terminalService.refund(refundDto);
-            return ResponseEntity.ok(dto);
-        }catch (Exception ex){
-            return handleError(ex,"refund");
-        }
-
-    }
-
-    /**
-     * Api point to close totals on terminal
-     * @return response
-     */
-    @GetMapping("/close-totals")
-    public ResponseEntity<?> closeTotals(){
-        try{
-            ResultDto dto = terminalService.closeTotals();
-            return ResponseEntity.ok(dto);
-        }catch (Exception ex){
-            return handleError(ex,"close-totals");
-        }
-    }
-
-    @GetMapping("/handshake")
-    public ResponseEntity<?> handshake(){
-        try{
-            ResultDto dto = terminalService.handshake();
-            return ResponseEntity.ok(dto);
-        }catch (Exception ex){
-            return handleError(ex,"handshake");
-        }
-    }
-
-    @GetMapping("/tms-b-call")
-    public ResponseEntity<?> tmsBCall(){
-        try{
-            ResultDto dto = terminalService.tmsBCall();
-            return ResponseEntity.ok(dto);
-        }catch (Exception ex){
-            return handleError(ex,"tms-b-call");
-        }
-    }
-
-    @GetMapping("/tms-n-call")
-    public ResponseEntity<?> tmsNCall(){
-        try{
-            ResultDto dto = terminalService.tmsNCall();
-            return ResponseEntity.ok(dto);
-        }catch (Exception ex){
-            return handleError(ex,"tms-n-call");
-        }
     }
 
     /**
