@@ -1,5 +1,8 @@
 package cz.upce.spring.printer_service.enums;
 
+/**
+ * Enum of printer types
+ */
 public enum PrinterType {
     THERMO("thermo"),OTHER("other"),UNKNOWN("unknown");
     public final String value;

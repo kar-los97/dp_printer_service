@@ -109,3 +109,5 @@
 2023-04-26 17:32:36.108  INFO 8568 --- [http-nio-8082-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
 2023-04-26 17:32:36.109  INFO 8568 --- [http-nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
 2023-04-26 17:32:36.110  INFO 8568 --- [http-nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2023-04-26 20:41:03.401  INFO 8568 --- [JavaFX Application Thread] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2023-04-26 20:41:03.440  INFO 8568 --- [JavaFX Application Thread] o.a.c.c.C.[Tomcat].[localhost].[/]       : Destroying Spring FrameworkServlet 'dispatcherServlet'

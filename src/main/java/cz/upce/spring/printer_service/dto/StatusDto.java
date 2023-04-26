@@ -1,8 +1,11 @@
 package cz.upce.spring.printer_service.dto;
 
+/**
+ * Data transfer object for get result status of printer
+ */
 public class StatusDto {
-    String type;
-    String status;
+    private String type;
+    private String status;
 
     public String getType() {
         return type;

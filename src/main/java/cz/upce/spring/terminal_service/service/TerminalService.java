@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
+/**
+ * Service class for realize operation with terminal
+ */
 @Service
 public class TerminalService {
 
@@ -20,6 +23,10 @@ public class TerminalService {
         this.terminalSettingsService = terminalSettingsService;
     }
 
+    /**
+     * Method to test terminal connection
+     * @return true - terminal is ready, false - terminal is not ready
+     */
     public boolean testConnection() {
         try {
             return test(getTerminalSettings());
@@ -28,7 +35,13 @@ public class TerminalService {
         }
     }
 
-    public boolean test(TerminalDto settings) throws TerminalException {
+    /**
+     * Method to test terminal connection
+     * @param settings
+     * @return true - terminal is ready, false - terminal is not ready
+     * @throws TerminalException if settings not exist
+     */
+    private boolean test(TerminalDto settings) throws TerminalException {
         if (settings == null) {
             throw new TerminalException("SETTINGS_DOESNT_EXIST");
         }
@@ -36,6 +49,12 @@ public class TerminalService {
         return true;
     }
 
+    /**
+     * Method to realize pay on terminal
+     * @param payDto object with parameters to pay
+     * @return object with result if is OK
+     * @throws TerminalException if terminal not set
+     */
     public ResultDto pay(PayDto payDto) throws TerminalException {
         TerminalDto settings = getTerminalSettings();
         if (settings == null) {
@@ -45,6 +64,10 @@ public class TerminalService {
         }
     }
 
+    /**
+     * Helpful method to get terminal settings
+     * @return object with terminal settings or null if not exist
+     */
     private TerminalDto getTerminalSettings() {
         try {
             return terminalSettingsService.getTerminalSettings();
@@ -53,22 +76,27 @@ public class TerminalService {
         }
     }
 
+    /**
+     * Helpful method to pay by terminal type (if we have more terminal types)
+     * @param settings actual settings of terminal
+     * @param payDto object with parameters to pay
+     * @return result of pay if everything is OK
+     * @throws TerminalException Terminal is not ready
+     */
     private ResultDto payByType(TerminalDto settings, PayDto payDto) throws TerminalException {
         if (test(settings)) {
-            switch (settings.getType()) {
-                case "default":
-                    try {
-                        TerminalRequest terminalRequest = new TerminalRequest(settings.getId());
-                        byte[] message = terminalRequest.createPayment(Double.parseDouble(payDto.getPrice()));
-                        ConvertedResponse res = TerminalConnection.sendMessage(settings.getIp(), Math.toIntExact(settings.getPort()), message, terminalRequest);
-                        return res.toResultDto();
-                    } catch (IOException e) {
-                        return null;
-                    }
-                default:
+            if ("default".equals(settings.getType())) {
+                try {
+                    TerminalRequest terminalRequest = new TerminalRequest(settings.getId());
+                    byte[] message = terminalRequest.createPayment(Double.parseDouble(payDto.getPrice()));
+                    TerminalConnection connection = new TerminalConnection();
+                    ConvertedResponse res = connection.sendMessage(settings.getIp(), Math.toIntExact(settings.getPort()), message);
+                    return res.toResultDto();
+                } catch (IOException e) {
                     return null;
-
+                }
             }
+            return null;
         } else {
             throw new TerminalException("TERMINAL_IS_NOT_READY");
         }

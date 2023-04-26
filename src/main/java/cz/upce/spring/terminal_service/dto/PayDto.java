@@ -1,5 +1,8 @@
 package cz.upce.spring.terminal_service.dto;
 
+/**
+ * Data transfer object for realize pay at terminal
+ */
 public class PayDto {
     private String price;
 

@@ -19,11 +19,7 @@ import javax.print.attribute.PrintRequestAttributeSet;
 import javax.print.attribute.Size2DSyntax;
 import javax.print.attribute.standard.Copies;
 import javax.print.attribute.standard.MediaPrintableArea;
-import javax.print.event.PrintJobAdapter;
-import javax.print.event.PrintJobEvent;
-import javax.swing.text.Document;
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,18 +60,16 @@ public class PrintService {
         service = getPrintService(printer);
 
         //Get convertor instance
-        Html2ImgConvertor html2ImgConvertor = Html2ImgConvertor.getInstance();
+        Html2ImgConvertor html2ImgConvertor = new Html2ImgConvertor();
         //foreach all data, convert them and print
         for (String data : printDto.getData()) {
+            FileInputStream fis = null;
             try {
-                FileInputStream fis = html2ImgConvertor.convert(data, printer.getPageHeight(), printer.getPageWidth());
+                fis = html2ImgConvertor.convert(data, printer.getPageHeight(), printer.getPageWidth());
                 printImage(fis);
-            } catch (FileNotFoundException e) {
-
             } catch (IOException e) {
-
+                throw new PrintFailedException("NO_VALID_PRINT_DATA");
             }
-
         }
         return true;
     }
@@ -87,12 +81,12 @@ public class PrintService {
     public List<StatusDto> checkPrinters() {
         List<StatusDto> results = new ArrayList<>();
         List<Printer> printers = new ArrayList<>();
-        for(int i = 0; i< PRINTER_TYPES.length;i++){
+        for (PrinterType printer_type : PRINTER_TYPES) {
             try {
-                printers.add(getPrinter(PRINTER_TYPES[i]));
+                printers.add(getPrinter(printer_type));
             } catch (NoPrinterException e) {
                 StatusDto dto = new StatusDto();
-                dto.setType(PRINTER_TYPES[i].value);
+                dto.setType(printer_type.value);
                 dto.setStatus("NOT_SET_UP");
                 results.add(dto);
             }
@@ -122,19 +116,6 @@ public class PrintService {
      */
     private void printImage(InputStream fis) throws PrintFailedException {
         DocPrintJob job = service.createPrintJob();
-
-        job.addPrintJobListener(new PrintJobAdapter() {
-            public void printDataTransferCompleted(PrintJobEvent event) {
-            }
-
-            @Override
-            public void printJobFailed(PrintJobEvent pje) {
-            }
-
-            public void printJobNoMoreEvents(PrintJobEvent event) {
-            }
-
-        });
         Doc doc = new SimpleDoc(fis, DocFlavor.INPUT_STREAM.PNG, null);
         PrintRequestAttributeSet attrib = new HashPrintRequestAttributeSet();
         attrib.add(new Copies(1));
@@ -211,7 +192,7 @@ public class PrintService {
      * @return true - ready, false - not ready
      */
     private boolean isPrinterReady(Printer printer){
-        /*ProcessBuilder builder;
+        ProcessBuilder builder;
         String script;
         if(printer.getType().equals(THERMO)){
             script = "get-wmiobject -class win32_printer | Select-Object Name,WorkOffline,PrinterStatus | where {$_.Name -eq '" + printer.getName() + "'}";
@@ -247,8 +228,7 @@ public class PrintService {
 
         } catch (IOException | InterruptedException e1) {
             return false;
-        }*/
-        return true;
+        }
     }
 
 }

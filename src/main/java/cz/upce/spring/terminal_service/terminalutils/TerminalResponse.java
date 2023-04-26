@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Class that represents response from terminal
+ */
 public class TerminalResponse {
 
 
@@ -15,13 +18,20 @@ public class TerminalResponse {
 
     public TerminalResponse(byte[] message) {
         this.bytes = message;
-        createBlockOfMessages();
     }
 
+    /**
+     * Method to create ConvertedResponse
+     * @return new instance of ConvertedResponse
+     */
     public ConvertedResponse process() {
+        createBlockOfMessages();
         return new ConvertedResponse(this.messages);
     }
 
+    /**
+     * Method to fill list of messages
+     */
     private void createBlockOfMessages() {
 
         char[] hexChars = new char[this.bytes.length * 2];
@@ -45,7 +55,12 @@ public class TerminalResponse {
         }
     }
 
-
+    /**
+     * Method that convert bytes from response to string
+     * @param length length of message
+     * @param starter start index at byte array
+     * @return string with converted message
+     */
     private String createMessage(int length, int starter) {
         byte[] newBytes = new byte[(length - 1)];
 

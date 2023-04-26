@@ -30,11 +30,7 @@ public class TerminalSettingsController {
         try {
             return ResponseEntity.ok(terminalSettingsService.getTerminalSettings());
         } catch (Exception e) {
-            if(e instanceof TerminalSettingsException){
-                return ResponseEntity.badRequest().body(e.getMessage());
-            }else{
-                return ResponseEntity.badRequest().build();
-            }
+            return handleError(e);
         }
     }
 
@@ -48,11 +44,7 @@ public class TerminalSettingsController {
         try{
             return ResponseEntity.ok(terminalSettingsService.changeSettings(dto));
         }catch (Exception e){
-            if(e instanceof TerminalSettingsException){
-                return ResponseEntity.badRequest().body(e.getMessage());
-            }else{
-                return ResponseEntity.badRequest().build();
-            }
+            return handleError(e);
         }
     }
 
@@ -64,13 +56,22 @@ public class TerminalSettingsController {
     public ResponseEntity<?>deleteSettings(){
         try{
             return new ResponseEntity<>(terminalSettingsService.deleteSettings(), HttpStatus.OK);
-
         }catch (Exception ex){
-            if(ex instanceof SettingsException){
-                return new ResponseEntity<>(ex.getMessage(),HttpStatus.BAD_REQUEST);
-            }else{
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
+            return handleError(ex);
+
+        }
+    }
+
+    /**
+     * If somewhere catch the exception, this method return the response with corresponding status
+     * @param ex exception
+     * @return response
+     */
+    private ResponseEntity<?> handleError(Exception ex){
+        if(ex instanceof SettingsException || ex instanceof TerminalSettingsException){
+            return new ResponseEntity<>(ex.getMessage(),HttpStatus.BAD_REQUEST);
+        }else{
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 

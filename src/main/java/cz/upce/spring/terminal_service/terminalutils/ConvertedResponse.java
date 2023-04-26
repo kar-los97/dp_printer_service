@@ -6,8 +6,10 @@ import cz.upce.spring.terminal_service.dto.ResultDto;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class represents response from terminal transferred
+ */
 public class ConvertedResponse {
-
 
     private boolean isDone = false;
 
@@ -17,13 +19,17 @@ public class ConvertedResponse {
 
     private List<String> customerRecipe = new ArrayList<>();
 
-
     public ConvertedResponse(ArrayList<String> block) {
+        //Podléhá interním pravidlům bankovní společnosti, proto je zde kód zjednodušen
         if (block.size() > 0) {
             this.setDone(true);
         }
     }
 
+    /**
+     * Method to get list of recipes from response
+     * @return List of recipes
+     */
     public List<String> getRecipes() {
         return new ArrayList<>();
     }
@@ -53,8 +59,14 @@ public class ConvertedResponse {
         this.customerRecipe = customerRecipe;
     }
 
+    /**
+     * Convert ConvertedResponse to ResultDto
+     * @return ResultDto
+     */
     public ResultDto toResultDto() {
         ResultDto dto = new ResultDto();
+        dto.setType("PAY");
+        dto.setStatus("OK");
         dto.setRecipeCustomer(this.customerRecipe);
         dto.setRecipeMerchant(this.merchantRecipe);
 

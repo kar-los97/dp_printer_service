@@ -1,5 +1,8 @@
 package cz.upce.spring.printer_service.dto;
 
+/**
+ * Data transfer object for accepting request to set printer
+ */
 public class PrinterDto {
 
     private String name;

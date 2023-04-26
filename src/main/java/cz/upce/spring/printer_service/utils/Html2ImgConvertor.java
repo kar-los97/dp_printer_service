@@ -31,34 +31,22 @@ public class Html2ImgConvertor {
     /**
      * Static path to IMG file
      */
-    private static final String IMG_PATH = "./print/print.png";
+    private final String IMG_PATH = "./print/print.png";
     /***
      * Static path to HTML file
      */
-    private static final String HTML_PATH = "./print/print.html";
+    private final String HTML_PATH = "./print/print.html";
     /**
      * Instance of this class
      */
-    private static Html2ImgConvertor instance = null;
-
-    /**
-     * Get instance method of Html2ImgConvertor
-     *
-     * @return instance of Html2ImgConvertor
-     */
-    public static Html2ImgConvertor getInstance() {
-        if (instance == null) {
-            instance = new Html2ImgConvertor();
-        }
-        return instance;
-    }
+    private Html2ImgConvertor instance = null;
 
     private DefaultObjectDrawerFactory buildObjectDrawerFactory() {
         DefaultObjectDrawerFactory objectDrawerFactory = new StandardObjectDrawerFactory();
         objectDrawerFactory.registerDrawer("custom/binary-tree", new SampleObjectDrawerBinaryTree());
         return objectDrawerFactory;
     }
-    private static class SampleObjectDrawerBinaryTree implements FSObjectDrawer {
+    private class SampleObjectDrawerBinaryTree implements FSObjectDrawer {
         int fanout;
         int angle;
 
@@ -124,49 +112,44 @@ public class Html2ImgConvertor {
         }
     }
     /**
-     * Method to convert html data from string to image
-     *
+     * Method to convert html data from string to image assistance with com.openhtmltopdf library
      * @param html   html data to convert
      * @param height height of image
      * @param width  width of image
-     * @return opened FileInputStream with converted image
+     * @return opened FileInputStream with converted image or null with image not saved
      */
     public FileInputStream convert(String html, Long height, Long width) throws IOException {
-        saveHtmlToFile(html);
+        if (!saveHtmlToFile(html)){
+            return null;
+        }else{
+            try (SVGDrawer svg = new BatikSVGDrawer();
+                 SVGDrawer mathMl = new MathMLDrawer()) {
 
-        try (SVGDrawer svg = new BatikSVGDrawer();
-             SVGDrawer mathMl = new MathMLDrawer()) {
+                Java2DRendererBuilder builder = new Java2DRendererBuilder();
+                builder.useSVGDrawer(svg);
+                builder.useMathMLDrawer(mathMl);
+                builder.addDOMMutator(LaTeXDOMMutator.INSTANCE);
+                builder.useObjectDrawerFactory(buildObjectDrawerFactory());
+                builder.withHtmlContent(html, IMG_PATH);
 
-            Java2DRendererBuilder builder = new Java2DRendererBuilder();
-            builder.useSVGDrawer(svg);
-            builder.useMathMLDrawer(mathMl);
-            builder.addDOMMutator(LaTeXDOMMutator.INSTANCE);
-            builder.useObjectDrawerFactory(buildObjectDrawerFactory());
-            builder.withHtmlContent(html, IMG_PATH);
+                BufferedImagePageProcessor bufferedImagePageProcessor = new BufferedImagePageProcessor(
+                        BufferedImage.TYPE_INT_RGB, 3.0);
 
-            BufferedImagePageProcessor bufferedImagePageProcessor = new BufferedImagePageProcessor(
-                    BufferedImage.TYPE_INT_RGB, 3.0);
+                builder.useDefaultPageSize(width, height, Java2DRendererBuilder.PageSizeUnits.MM);
+                builder.useEnvironmentFonts(true);
 
-            builder.useDefaultPageSize(width, height, Java2DRendererBuilder.PageSizeUnits.MM);
-            builder.useEnvironmentFonts(true);
+                //Render single page image
+                builder.toSinglePage(bufferedImagePageProcessor).runFirstPage();
+                BufferedImage image = bufferedImagePageProcessor.getPageImages().get(0);
 
-            /*
-             * Render Single Page Image
-             */
-            builder.toSinglePage(bufferedImagePageProcessor).runFirstPage();
-            BufferedImage image = bufferedImagePageProcessor.getPageImages().get(0);
+                ImageIO.write(image, "PNG", new File(IMG_PATH));
 
-            ImageIO.write(image, "PNG", new File(IMG_PATH));
+            }
 
-            /*
-             * Render Multipage Image Files
-             */
-            builder.toPageProcessor(new DefaultPageProcessor(
-                    zeroBasedPageNumber -> new FileOutputStream(IMG_PATH.replace(".png", "_" + zeroBasedPageNumber + ".png")),
-                    BufferedImage.TYPE_INT_ARGB, "PNG")).runPaged();
+            return new FileInputStream(IMG_PATH);
         }
 
-        return new FileInputStream(IMG_PATH);
+
     }
 
     /**
@@ -174,13 +157,15 @@ public class Html2ImgConvertor {
      *
      * @param htmlData html data in String
      */
-    private static void saveHtmlToFile(String htmlData) {
+    private boolean saveHtmlToFile(String htmlData) {
         try {
             FileWriter fileWriter = new FileWriter(HTML_PATH);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
             bufferedWriter.write(htmlData);
             bufferedWriter.close();
+            return true;
         } catch (Exception ex) {
+            return false;
         }
     }
 

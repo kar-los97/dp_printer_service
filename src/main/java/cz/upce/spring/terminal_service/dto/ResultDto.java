@@ -2,6 +2,9 @@ package cz.upce.spring.terminal_service.dto;
 
 import java.util.List;
 
+/**
+ * Data transfer object for result of pay
+ */
 public class ResultDto {
     private String type;
     private String status;

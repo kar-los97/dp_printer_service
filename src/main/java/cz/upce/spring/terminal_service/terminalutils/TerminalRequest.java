@@ -1,53 +1,38 @@
 package cz.upce.spring.terminal_service.terminalutils;
 
-import java.io.IOException;
 
+/**
+ * Class that represent terminal request
+ */
 public class TerminalRequest {
+    /**
+     * Unique terminalID assigned from bank
+     */
+    private String terminalId;
 
-    private String deviceId;
-
-    public TerminalRequest(String deviceId) {
-        this.deviceId = deviceId;
+    public TerminalRequest(String terminalId) {
+        this.terminalId = terminalId;
     }
 
 
-    private byte[] convert(String header, String[] message) throws IOException {
+    /**
+     * Helpful method to convert header and messages to byte array, that can be accepted for terminal protocol
+     * @param header array of headers (header contain date, terminalId, etc.)
+     * @param message array of messages (price to pay, order id, etc.)
+     * @return new byte array of converted
+     */
+    private byte[] convert(String header, String[] message){
         //Podléhá interním předpisům bankovní společnosti
         return new byte[0];
     }
 
-    public byte[] createTicketRequest(String t) throws IOException{
+    /**
+     * Method to create payment request
+     * @param price to pay
+     * @return new byte array with request
+     */
+    public byte[] createPayment(double price) {
         //Podléhá interním předpisům bankovní společnosti
-        return new byte[0];
-    }
-
-    public byte[] createPayment(double price) throws IOException {
-        //Podléhá interním předpisům bankovní společnosti
-        return new byte[0];
-    }
-
-    public byte[] createRefund(double price) throws IOException {
-        //Podléhá interním předpisům bankovní společnosti
-        return new byte[0];
-    }
-
-    public byte[] createCloseTotals() throws IOException{
-        //Podléhá interním předpisům bankovní společnosti
-        return new byte[0];
-    }
-
-    public byte[] createBTmsCall() throws IOException{
-        //Podléhá interním předpisům bankovní společnosti
-        return new byte[0];
-    }
-
-    public byte[] createNTmsCall() throws IOException{
-        //Podléhá interním předpisům bankovní společnosti
-        return new byte[0];
-    }
-
-    public byte[] createHandshake() throws IOException{
-        //Podléhá interním předpisům bankovní společnosti
-        return new byte[0];
+        return convert("header",new String[0]);
     }
 }

@@ -46,7 +46,7 @@ public class TerminalController {
             ResultDto dto = terminalService.pay(payDto);
             return ResponseEntity.ok(dto);
         } catch (Exception ex) {
-            return handleError(ex,"pay");
+            return handleError(ex);
         }
 
 
@@ -57,7 +57,7 @@ public class TerminalController {
      * @param ex catched exception
      * @return response with error message
      */
-    private ResponseEntity<?> handleError(Exception ex,String methodName){
+    private ResponseEntity<?> handleError(Exception ex){
         if(ex instanceof TerminalException || ex instanceof TerminalSettingsException){
             return ResponseEntity.badRequest().body(ex.getMessage());
         } else{

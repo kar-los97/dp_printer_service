@@ -21,9 +21,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Service for printer settings
+ */
 @Service
 public class PrinterSettingsService {
-
+    /**
+     * Method to get actual printer settings
+     * @return List of set printers
+     * @throws SettingsException when no printer set or error with config file
+     */
     public List<Printer> getPrinterSettings() throws SettingsException {
         List<Printer> printersSet = new ArrayList<>();
         JSONParser jsonParser = new JSONParser();
@@ -50,6 +57,10 @@ public class PrinterSettingsService {
         return printersSet;
     }
 
+    /**
+     * Method to get all printers that are connected to computer
+     * @return list of printers' name
+     */
     public List<String> getAllPrinters() {
         List<String> printers = new ArrayList<>();
         PrintService[] services = PrintServiceLookup.lookupPrintServices(DocFlavor.INPUT_STREAM.AUTOSENSE, null);
@@ -60,6 +71,12 @@ public class PrinterSettingsService {
         return printers;
     }
 
+    /**
+     * Method to change printers settings
+     * @param dto new settings
+     * @return updated settings
+     * @throws SettingsException when error with saving settings
+     */
     public List<Printer> changeSettings(Set<PrinterDto> dto) throws SettingsException {
         JSONObject object = new JSONObject();
         JSONArray printers = new JSONArray();
@@ -88,6 +105,11 @@ public class PrinterSettingsService {
 
     }
 
+    /**
+     * Method to delete all settings of printers
+     * @return true - deleted, false - not deleted
+     * @throws SettingsException if some error with saving config file
+     */
     public boolean deleteSettings() throws SettingsException {
         JSONObject object = new JSONObject();
         JSONArray printers = new JSONArray();

@@ -14,9 +14,17 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * Service for terminal settings
+ */
 @Service
 public class TerminalSettingsService {
 
+    /**
+     * Method to get actual terminal settings
+     * @return object with actual settings
+     * @throws TerminalSettingsException if terminal settings not OK
+     */
     public TerminalDto getTerminalSettings() throws TerminalSettingsException {
         JSONParser jsonParser = new JSONParser();
         try {
@@ -40,6 +48,12 @@ public class TerminalSettingsService {
 
     }
 
+    /**
+     * Method to change terminal settings
+     * @param dto new terminal settings
+     * @return new terminal settings if is OK
+     * @throws TerminalSettingsException if some error at saving config file
+     */
     public TerminalDto changeSettings(TerminalDto dto) throws TerminalSettingsException {
         JSONObject jsonObject = new JSONObject();
         JSONObject terminalObject = new JSONObject();
@@ -62,6 +76,11 @@ public class TerminalSettingsService {
         return getTerminalSettings();
     }
 
+    /**
+     * Method to delete all settings of terminal
+     * @return true - if ok
+     * @throws SettingsException if some error at deleting settings
+     */
     public boolean deleteSettings() throws SettingsException {
         JSONObject object = new JSONObject();
 

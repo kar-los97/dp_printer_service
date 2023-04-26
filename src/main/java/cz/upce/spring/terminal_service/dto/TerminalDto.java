@@ -1,5 +1,8 @@
 package cz.upce.spring.terminal_service.dto;
 
+/**
+ * Data transfer object to terminal settings
+ */
 public class TerminalDto {
     private String type;
     private String ip;
