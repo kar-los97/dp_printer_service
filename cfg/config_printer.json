@@ -1,16 +1,16 @@
 {
   "printers": [
     {
-      "name": "HP Smart Printing",
-      "width": 210,
+      "name": "TestOther2",
+      "width": 211,
       "type": "OTHER",
-      "height": 297
+      "height": 298
     },
     {
-      "name": "Honeywell PC42t (203 dpi) - DP",
-      "width": 60,
+      "name": "TestThermo2",
+      "width": 62,
       "type": "THERMO",
-      "height": 101
+      "height": 102
     }
   ]
 }
