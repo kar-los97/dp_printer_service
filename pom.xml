@@ -11,8 +11,8 @@
     <groupId>cz.upce</groupId>
     <artifactId>printer_service</artifactId>
     <version>0.0.1</version>
-    <name>printer_service</name>
-    <description>printer_service</description>
+    <name>cashier_service</name>
+    <description>cashier_service</description>
     <properties>
         <java.version>19</java.version>
         <javafx.version>19</javafx.version>
@@ -202,15 +202,17 @@
     </dependencies>
 
     <build>
+        <finalName>cashier_service</finalName>
+
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <executions>
                     <execution>
-                        <phase>package</phase>
+                        <phase>prepare-package</phase>
                         <configuration>
-                            <mainClass>cz.upce.PrinterServiceApplication</mainClass>
+                            <mainClass>cz.upce.api.PrinterServiceApplication</mainClass>
                         </configuration>
                     </execution>
                 </executions>
@@ -219,39 +221,48 @@
             <plugin>
                 <groupId>com.akathist.maven.plugins.launch4j</groupId>
                 <artifactId>launch4j-maven-plugin</artifactId>
+                <version>2.3.3</version>
                 <executions>
                     <execution>
-                        <id>l4j-clui</id>
+                        <id>l4j-gui</id>
                         <phase>package</phase>
                         <goals>
                             <goal>launch4j</goal>
                         </goals>
                         <configuration>
-                            <headerType>console</headerType>
-                            <jar>target/${project.name}-${project.version}.jar</jar>
-                            <outfile>target/${project.name}-${project.version}.exe</outfile>
-                            <downloadUrl>https://java.com/download</downloadUrl>
-                            <classPath>
-                                <mainClass>cz.upce.Main</mainClass>
-                                <preCp>anything</preCp>
-                            </classPath>
+                            <headerType>gui</headerType>
+                            <jar>target/cashier_service.jar</jar>
+                            <outfile>target/cashier_service.exe</outfile>
+                            <downloadUrl>http://java.com/download</downloadUrl>
                             <icon>cashier.ico</icon>
                             <jre>
                                 <minVersion>1.8.0</minVersion>
                                 <jdkPreference>preferJre</jdkPreference>
+                                <path>%JRE_HOME%</path>
                             </jre>
-                            <versionInfo>
-                                <fileVersion>${project.version}.0</fileVersion>
-                                <txtFileVersion>${project.version}.0</txtFileVersion>
-                                <fileDescription>${project.name}</fileDescription>
-                                <copyright>2023 Karel Andres</copyright>
-                                <productVersion>${project.version}.0</productVersion>
-                                <txtProductVersion>${project.version}.0</txtProductVersion>
-                                <productName>${project.name}</productName>
-                                <internalName>printer_service</internalName>
-                                <originalFilename>${project.name}-${project.version}.exe</originalFilename>
-                            </versionInfo>
                         </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.6.0</version>
+                <configuration>
+                    <mainClass>cz.upce.api.Main</mainClass>
+                    <executable>inno/ISCC.exe</executable>
+                    <workingDirectory>${project.basedir}</workingDirectory>
+                    <arguments>
+                        <argument>cashier_service.iss</argument>
+                    </arguments>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>
@@ -263,31 +274,32 @@
                 <executions>
                     <execution>
                         <id>copy-resource-one</id>
-                        <phase>package</phase>
+                        <phase>prepare-package</phase>
                         <goals>
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>../build</outputDirectory>
+                            <outputDirectory>build</outputDirectory>
                             <resources>
                                 <resource>
                                     <directory>target</directory>
                                     <includes>
-                                        <include>${project.name}-${project.version}.exe</include>
+                                        <include>cashier_service.exe</include>
                                     </includes>
                                 </resource>
                             </resources>
                         </configuration>
 
                     </execution>
+
                     <execution>
                         <id>copy-resource-two</id>
-                        <phase>generate-sources</phase>
+                        <phase>prepare-package</phase>
                         <goals>
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>../build/print</outputDirectory>
+                            <outputDirectory>build/print</outputDirectory>
                             <resources>
                                 <resource>
                                     <directory>print</directory>
@@ -303,26 +315,77 @@
 
                     <execution>
                         <id>copy-resource-three</id>
-                        <phase>generate-sources</phase>
+                        <phase>prepare-package</phase>
                         <goals>
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>../build</outputDirectory>
+                            <outputDirectory>build/cfg</outputDirectory>
                             <resources>
                                 <resource>
-                                    <directory>${project.basedir}</directory>
+                                    <directory>${project.basedir}/cfg_install</directory>
                                     <includes>
-                                        <include>config.json</include>
+                                        <include>config_printer.json</include>
+                                        <include>config_terminal.json</include>
+                                        <include>test_print_basic.json</include>
+                                        <include>test_print_thermo.json</include>
                                     </includes>
                                 </resource>
                             </resources>
                         </configuration>
+
+                    </execution>
+
+
+                    <execution>
+                        <id>copy-resource-five</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>install</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${project.basedir}/Output</directory>
+                                    <includes>
+                                        <include>cashier_service.exe</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+
                     </execution>
                 </executions>
             </plugin>
-        </plugins>
 
+
+
+            <plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>build</directory>
+                        </fileset>
+                        <fileset>
+                            <directory>Output</directory>
+                        </fileset>
+                    </filesets>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>17</source>
+                    <target>17</target>
+                </configuration>
+            </plugin>
+
+
+        </plugins>
     </build>
 
 </project>

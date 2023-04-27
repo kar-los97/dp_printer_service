@@ -1,16 +1,16 @@
 {
   "printers": [
     {
-      "name": "TestOther2",
-      "width": 211,
-      "type": "OTHER",
-      "height": 298
-    },
-    {
       "name": "TestThermo2",
       "width": 62,
       "type": "THERMO",
       "height": 102
+    },
+    {
+      "name": "TestOther2",
+      "width": 211,
+      "type": "OTHER",
+      "height": 298
     }
   ]
 }

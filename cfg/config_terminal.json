@@ -1,1 +1,8 @@
-{"terminal":{"port":23117,"ip":"192.168.3.124","id":"TEST3042","type":"default"}}
+{
+  "terminal": {
+    "port": 23117,
+    "ip": "192.168.3.124",
+    "id": "TEST3042",
+    "type": "default"
+  }
+}

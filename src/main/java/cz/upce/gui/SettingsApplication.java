@@ -1,6 +1,6 @@
 package cz.upce.gui;
 
-import cz.upce.spring.PrinterServiceApplication;
+import cz.upce.api.PrinterServiceApplication;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
